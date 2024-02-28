@@ -15,7 +15,7 @@
 
   cities.features.forEach((city) => {
   console.log(city.properties.city + ': ' + city.geometry.coordinates);
-});
+  });
 
   const tweenedX = tweened(
     cities.features.map((city) => projection(city.geometry.coordinates)[0]),
@@ -39,7 +39,7 @@
       tweenedY.set(cities.features.map((city, i) => height / 2 + i * 20));
     }
 
-    if ( index > 1 && index <= 2) {
+    if ( index === 2) {
       tweenedX.set(
         cities.features.map((city) => projection(city.geometry.coordinates)[0])
       );
@@ -47,6 +47,16 @@
         cities.features.map((city) => projection(city.geometry.coordinates)[1])
       );
     }
+
+    if ( index > 2) {
+      tweenedX.set(
+        cities.features.map((city) => 0)
+      );
+      tweenedY.set(
+        cities.features.map((city) => 0)
+      );
+    }
+
 
   }
 
