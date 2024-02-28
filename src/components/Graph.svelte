@@ -14,7 +14,7 @@
   };
 
   cities.features.forEach((city) => {
-  console.log(city.properties.city + ': ' + city.geometry.coordinates);
+    console.log(city.properties.city + ': ' + city.geometry.coordinates);
   });
 
   const tweenedX = tweened(
@@ -31,7 +31,8 @@
     x: $tweenedX[i],
     y: $tweenedY[i],
     properties: city.properties,
-  }));
+  })
+);
 
   $: {
     if (index === 1) {
