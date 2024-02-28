@@ -3,29 +3,28 @@
     export let index;
 
     let points = [];
-    const spacing = 12; // Adjust based on the size of the square and SVG area
-    let radius = 4; // Example radius
+    const spacing = 12;
+    let radius = 4;
 
     onMount(() => {
         const width = window.innerWidth;
         const height = window.innerHeight;
-        const pointsPerSideX = Math.floor((width - radius * 2) / spacing);
-        console.log( Math.floor((width - 4 * 2) / spacing));
-        const pointsPerSideY = Math.floor((height - radius * 2) / spacing);
-        console.log( Math.floor((width - 4 * 2) / spacing));
+        const pointsPerSideX = 30;
+        const pointsPerSideY = 50;
         const totalGeneratedPoints = pointsPerSideX * pointsPerSideY;
 
-        // Correctly calculate the half point of the generated points
-        const halfPoint = 750;
-
-        for (let x = 0; x < 30; x++) {
-            for (let y = 0; y < 50; y++) {
-                // Add each point with the isGreen property set based on its index
-                points.push({ x: x * spacing + radius, y: y * spacing + radius, isGreen: points.length < halfPoint, animationDelay: index * 10 });
-            }
+        // Assuming a fixed number of points for simplicity
+        for (let i = 0; i < totalGeneratedPoints; i++) {
+            const x = i % pointsPerSideX;
+            const y = Math.floor(i / pointsPerSideX);
+            points.push({
+                x: x * spacing + radius,
+                y: y * spacing + radius,
+                isGreen: i < totalGeneratedPoints / 2,
+                // Increment delay for each point, adjusting the multiplier as needed
+                animationDelay: i * 5 // Adjust this value for the desired effect
+            });
         }
-        // console.log(points.length);
-        // console.log(halfPoint);
     });
 
     let isVisible = false;
@@ -38,29 +37,36 @@
 
 <svg class="graph" width="100vw" height="100vh" class:visible={isVisible}>
     {#if index === 4}
-        {#each points as point}
-        <circle cx={point.x} cy={point.y} r="4" class="point" style="animation-delay: {point.animationDelay}ms;" fill={point.isGreen ? 'green' : 'black'} />
+        {#each points as point, i}
+        <circle cx={point.x} cy={point.y} r="4" 
+            class:point={point.isGreen} 
+            style="animation-delay: {point.animationDelay}ms;" 
+            fill="black" />
         {/each}
     {/if}
 </svg>
 
 <style>
-    .graph {
-        width: 100%;
-        height: 100vh;
-        margin: auto;
-        margin-top: 150px;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.5s, visibility 0.5s;
-        justify-content: center;
-        align-items: center;
+    /* Apply the animation only to points that should be green */
+    .point {
+        fill: black; /* Default color */
+        animation: turnGreen 0.5s forwards; /* Adjust timing as needed */
     }
+
+    /* Keyframes to animate the fill color */
+    @keyframes turnGreen {
+        to {
+            fill: green;
+        }
+    }
+
+    /* Other styles remain unchanged */
     .graph.visible {
-        opacity: 1;
-        visibility: visible;
+        /* Unchanged */
     }
 </style>
+
+
 
 
   
