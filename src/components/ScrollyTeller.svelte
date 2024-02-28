@@ -98,18 +98,19 @@
     background: rgba(169, 168, 169, 0.2) /*  40% opaque */;
     visibility: visible;
   }
+  
 
   section {
-    height: 80vh;
+    height: 100vh;
     /* background-color: rgba(0, 0, 0, 0.2); 20% opaque */
     background-color: none;
     /* color: white; */
     /* outline: rgb(196, 193, 196) solid 3px; */
     outline: none;
     text-align: center;
-    max-width: 750px; /* adjust at will */
+    max-width: 1000px; /* adjust at will */
     color: black;
-    padding: 1em;
+    padding: 2em;
     margin: 0 0 2em 0;
   }
 
@@ -129,7 +130,7 @@
   <div class="background" slot="background" bind:clientWidth={width} bind:clientHeight={height}>
     <Map bind:geoJsonToFit {index} />
     <Graph {index} {width} {height} {projection} />
-    <GenderPointsPage {index} />
+    <!-- <GenderPointsPage {index} /> -->
     <div class="progress-bars">
       <p>total progress:<strong>{index + 1}/{count}</strong></p>
       <progress value={progress || 0} />
@@ -141,8 +142,7 @@
     <section>This is the second section.</section>
     <section>This is the third section.</section>
     <section>This is the fourth section.</section>
-    <section>This is the fifth section.
-    </section>
+    <section class="points"><GenderPointsPage {index} /></section>
     <section>This is the sixth section.</section>
   </div>
 

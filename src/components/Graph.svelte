@@ -39,7 +39,7 @@
       tweenedY.set(cities.features.map((city, i) => height / 2 + i * 20));
     }
 
-    if (index > 1) {
+    if ( index > 1 && index <= 2) {
       tweenedX.set(
         cities.features.map((city) => projection(city.geometry.coordinates)[0])
       );
@@ -47,6 +47,7 @@
         cities.features.map((city) => projection(city.geometry.coordinates)[1])
       );
     }
+
   }
 
 
