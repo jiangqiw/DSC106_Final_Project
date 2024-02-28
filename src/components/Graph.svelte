@@ -35,10 +35,6 @@
 );
 
   $: {
-    if (index === 1) {
-      tweenedX.set(cities.features.map((city) => width / 2));
-      tweenedY.set(cities.features.map((city, i) => height / 2 + i * 20));
-    }
 
     if ( index === 2) {
       tweenedX.set(
