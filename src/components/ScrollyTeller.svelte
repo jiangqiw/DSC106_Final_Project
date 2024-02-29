@@ -138,11 +138,11 @@
   </div>
 
   <div class="foreground" slot="foreground">
-    <section>This is the first section.</section>
+    <section>Please maximize your browser window for the best viewing experience.</section>
     <section>This is the second section.</section>
     <section>This is the third section.</section>
     <section>This is the fourth section.</section>
-    <section class="points">This is the fifth section. Hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh<GenderPointsPage {index} /></section>
+    <section class="points">This is the fifth section.<GenderPointsPage {index} /></section>
     <section>This is the sixth section.</section>
   </div>
 

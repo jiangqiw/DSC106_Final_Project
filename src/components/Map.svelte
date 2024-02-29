@@ -13,10 +13,10 @@
   let zoomLevel;
   let pathIndex = 0;
   const path = [
-    [-2.12, 51.06], // Southampton
-    [-1.7512, 49.83], // Cherbourg
-    [-8.72, 51.9150], // Queenstown (Cobh)
-    [-39.10, 45.17]  // Example Sunk point, adjust as necessary
+    [-2.5, 50], // Southampton
+    [-2, 49.0], // Cherbourg
+    [-9.5, 50.7], // Queenstown (Cobh)
+    [-39.10, 44.5]  // Example Sunk point, adjust as necessary
   ];
 
   function updateZoomLevel() {
@@ -29,19 +29,32 @@
     map.setZoom(zoomLevel);
   }
 
+
   function animateDot() {
-    if (pathIndex >= path.length) {
-      pathIndex = 0; // Optionally loop or stop the animation
-      return;
-    }
-    const coordinates = path[pathIndex];
-    map.getSource('moving-dot').setData({
-      type: 'Point',
-      coordinates
-    });
-    pathIndex++;
-    setTimeout(animateDot, 2000); // Adjust timing as needed
+  if (pathIndex >= path.length) {
+    pathIndex = 0; // Reset or stop the animation based on your preference
+    startAnimation();
+    return;
   }
+  
+  const coordinates = path[pathIndex];
+  map.getSource('moving-dot').setData({
+    type: 'Point',
+    coordinates
+  });
+
+  // Check if the current index is the last point in the path
+  if (pathIndex === path.length - 1) {
+    // Switch to the second image for the last point
+    map.setLayoutProperty('dot', 'icon-image', 'custom-dot-final');
+  } else {
+    // Ensure the original image is used for other points
+    map.setLayoutProperty('dot', 'icon-image', 'custom-dot');
+  }
+
+  pathIndex++;
+  setTimeout(animateDot, 2500); // Adjust timing as needed
+}
 
   function startAnimation() {
     pathIndex = 0; // Reset path index to start from Southampton
@@ -82,11 +95,20 @@
     }
 
     map.on("load", () => {
-      hideLabelLayers();
-      updateBounds();
-      map.on("zoom", updateBounds);
-      map.on("drag", updateBounds);
-      map.on("move", updateBounds);
+    hideLabelLayers();
+    updateBounds();
+    map.on("zoom", updateBounds);
+    map.on("drag", updateBounds);
+    map.on("move", updateBounds);
+    
+    // Load a local image to use as the moving dot
+    map.loadImage('src/data/good_ship.jpg', (error, image) => {
+      if (error) throw error;
+      
+      // Add the image to the map style
+      map.addImage('custom-dot', image);
+      
+      // Now add the source for the moving dot
       map.addSource('moving-dot', {
         type: 'geojson',
         data: {
@@ -94,18 +116,29 @@
           coordinates: path[0] // Start at the first point
         }
       });
+    
+    map.loadImage('src/data/bad_ship.jpg', (error, image) => {
+      if (error) throw error;
+      map.addImage('custom-dot-final', image);
+    });
+      
+      // Replace the circle layer with a symbol layer that uses the loaded image
       map.addLayer({
         id: 'dot',
         source: 'moving-dot',
-        type: 'circle',
-        paint: {
-          'circle-radius': 10,
-          'circle-color': '#007cbf'
+        type: 'symbol',
+        layout: {
+          'icon-image': 'custom-dot',
+          // These properties scale the image and adjust its position
+          'icon-size': 0.1, // Adjust based on your image size and preference
+          'icon-anchor': 'bottom' // Adjust if necessary to position the image correctly
         }
       });
+      
       animateDot();
     });
   });
+});
   
   function updateBounds() {
     const bounds = map.getBounds();
@@ -153,4 +186,3 @@
     visibility: visible;
   }
 </style>
-
