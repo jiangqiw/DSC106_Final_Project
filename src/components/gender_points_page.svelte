@@ -9,9 +9,9 @@
     onMount(() => {
         const width = window.innerWidth;
         const height = window.innerHeight;
-        const pointsPerSideX = 30;
-        const pointsPerSideY = 50;
-        const totalGeneratedPoints = pointsPerSideX * pointsPerSideY;
+        const pointsPerSideX = 70;
+        const pointsPerSideY = 30;
+        const totalGeneratedPoints = 1309;
 
         // Assuming a fixed number of points for simplicity
         for (let i = 0; i < totalGeneratedPoints; i++) {
@@ -20,7 +20,7 @@
             points.push({
                 x: x * spacing + radius,
                 y: y * spacing + radius,
-                isGreen: i < totalGeneratedPoints / 2,
+                isGreen: i < 339 + 161,
                 // Increment delay for each point, adjusting the multiplier as needed
                 animationDelay: i * 5 // Adjust this value for the desired effect
             });
@@ -60,9 +60,25 @@
         }
     }
 
+    .graph{
+        width: 100%;
+        height: 100vh;
+        margin: auto;
+        margin-top: 150px;
+        position: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s, visibility 0.5s;
+        justify-content: center;
+        align-items: center;
+    }
+
     /* Other styles remain unchanged */
     .graph.visible {
-        /* Unchanged */
+        margin: none;
+        opacity: 1;
+        visibility: visible;
+        padding:0%;
     }
 </style>
 

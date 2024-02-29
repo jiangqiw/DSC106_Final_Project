@@ -116,7 +116,7 @@
 
 </style>
 
-<header>Titanic Whatsoever</header>
+<header>Surviving the Titanic: The Role of Age, Gender, Class, and Occupation</header>
 
 <Scroller
   top={0.0}
@@ -142,7 +142,7 @@
     <section>This is the second section.</section>
     <section>This is the third section.</section>
     <section>This is the fourth section.</section>
-    <section class="points"><GenderPointsPage {index} /></section>
+    <section class="points">This is the fifth section. Hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh<GenderPointsPage {index} /></section>
     <section>This is the sixth section.</section>
   </div>
 

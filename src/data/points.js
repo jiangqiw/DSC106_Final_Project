@@ -1,4 +1,4 @@
-export const cities = {
+export const points = {
   "type": "FeatureCollection",
   "features": [
     {
@@ -6,7 +6,7 @@ export const cities = {
       "geometry": {
         "type": "Point",
         "coordinates": [
-          1.204351, 54.309700
+          3.8, 53.7
         ]
       },
       "properties": {
@@ -18,7 +18,7 @@ export const cities = {
       "geometry": {
         "type": "Point",
         "coordinates": [
-          3.0221, 51.2
+          5, 52.19
         ]
       },
       "properties": {
@@ -30,7 +30,7 @@ export const cities = {
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -8.2943, 53.8503
+          -4.8, 53.5
         ]
       },
       "properties": {
@@ -42,7 +42,7 @@ export const cities = {
     "geometry": {
       "type": "Point",
       "coordinates": [
-          -76.006, 40.7128
+          -76.5, 40.9
       ]
     },
     "properties": {
@@ -54,7 +54,7 @@ export const cities = {
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -2.1427, 52.3755
+          0.8, 51.9
         ]
       },
       "properties": {
@@ -66,7 +66,7 @@ export const cities = {
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -52.5, 41.5
+          -50, 43
         ]
       },
       "properties": {
@@ -74,4 +74,4 @@ export const cities = {
       }
     }
   ]
-}
+  }

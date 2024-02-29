@@ -3,6 +3,7 @@
   import { tweened } from "svelte/motion";
   import { cubicOut, cubicInOut } from "svelte/easing";
   import { cities } from "../data/cities";
+  import { points } from "../data/points"
 
 
   export let index, width, height, projection;
@@ -27,6 +28,16 @@
     tweenOptions
   );
 
+  const tweenedX_point = tweened(
+    points.features.map((point) => projection(point.geometry.coordinates)[0]),
+    tweenOptions
+  );
+
+  const tweenedY_point = tweened(
+    points.features.map((point) => projection(point.geometry.coordinates)[1]),
+    tweenOptions
+  );
+
   $: tweenedData = cities.features.map((city, i) => ({
     x: $tweenedX[i],
     y: $tweenedY[i],
@@ -34,7 +45,18 @@
   })
 );
 
+$: tweenedData_point = points.features.map((point, i) => ({
+    x: $tweenedX_point[i],
+    y: $tweenedY_point[i],
+    properties: point.properties,
+  })
+);
+
   $: {
+    // if (index === 1) {
+    //   tweenedX.set(cities.features.map((city) => width / 2));
+    //   tweenedY.set(cities.features.map((city, i) => height / 2 + i * 20));
+    // }
 
     if ( index === 2) {
       tweenedX.set(
@@ -43,14 +65,22 @@
       tweenedY.set(
         cities.features.map((city) => projection(city.geometry.coordinates)[1])
       );
+      tweenedX_point.set(
+        points.features.map((point) => projection(point.geometry.coordinates)[0])
+      );
+      tweenedY_point.set(
+        points.features.map((point) => projection(point.geometry.coordinates)[1])
+      );
     }
 
     if ( index > 2) {
       tweenedX.set(
-        cities.features.map((city) => 0)
+        cities.features.map((city) => 0),
+        points.features.map((point) => 0)
       );
       tweenedY.set(
-        cities.features.map((city) => 0)
+        cities.features.map((city) => 0),
+        points.features.map((point) => 0)
       );
     }
 
@@ -73,8 +103,16 @@
         </text>
       {/if}
     {/each}
-
-
+    {#each tweenedData_point as point, i}
+      {#if point.x && point.y}
+        <circle
+        cx={point.x}
+        cy={point.y }
+        r="3" 
+        fill="black"
+      />
+      {/if}
+    {/each}
 </svg>
 
 <style>

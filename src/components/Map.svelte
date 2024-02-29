@@ -11,6 +11,13 @@
   let map;
 
   let zoomLevel;
+  let pathIndex = 0;
+  const path = [
+    [-2.12, 51.06], // Southampton
+    [-1.7512, 49.83], // Cherbourg
+    [-8.72, 51.9150], // Queenstown (Cobh)
+    [-39.10, 45.17]  // Example Sunk point, adjust as necessary
+  ];
 
   function updateZoomLevel() {
     const screenWidth = window.innerWidth;
@@ -22,11 +29,37 @@
     map.setZoom(zoomLevel);
   }
 
+  function animateDot() {
+    if (pathIndex >= path.length) {
+      pathIndex = 0; // Optionally loop or stop the animation
+      return;
+    }
+    const coordinates = path[pathIndex];
+    map.getSource('moving-dot').setData({
+      type: 'Point',
+      coordinates
+    });
+    pathIndex++;
+    setTimeout(animateDot, 2000); // Adjust timing as needed
+  }
+
+  function startAnimation() {
+    pathIndex = 0; // Reset path index to start from Southampton
+    if (map && map.isStyleLoaded()) {
+      // Ensure the map and style are fully loaded before attempting to set data
+      map.getSource('moving-dot').setData({
+        type: 'Point',
+        coordinates: path[0] // Southampton coordinates
+      });
+      animateDot(); // Restart the animation
+    }
+  }
+
   onMount(() => {
     updateZoomLevel();
     map = new mapboxgl.Map({
       container,
-      style: "mapbox://styles/mapbox/light-v11",
+      style: "mapbox://styles/mapbox/outdoors-v12",
       center: [-25, 50],
       zoom: zoomLevel,
       attributionControl: true, // removes attribution from the bottom of the map
@@ -54,6 +87,23 @@
       map.on("zoom", updateBounds);
       map.on("drag", updateBounds);
       map.on("move", updateBounds);
+      map.addSource('moving-dot', {
+        type: 'geojson',
+        data: {
+          type: 'Point',
+          coordinates: path[0] // Start at the first point
+        }
+      });
+      map.addLayer({
+        id: 'dot',
+        source: 'moving-dot',
+        type: 'circle',
+        paint: {
+          'circle-radius': 10,
+          'circle-color': '#007cbf'
+        }
+      });
+      animateDot();
     });
   });
   
@@ -71,6 +121,7 @@
   let isVisible = false;
   $: if (index === 2) {
     isVisible = true;
+    startAnimation();
   } else {
     isVisible = false;
   }
